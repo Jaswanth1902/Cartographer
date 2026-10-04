@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cartographer-agent"
+version = "1.0.0"
+description = "Autonomous Living Architecture & Docs Agent for WCC Launchpad 3.0"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Jaswanth R", email = "ksaijaswanthr.cs24@rvce.edu.in" }
+]
+keywords = ["ast", "architecture", "agentic-ai", "documentation", "inkloom"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+cartographer = "src.cli:main"

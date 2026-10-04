@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartographer - Living Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #090d16;
+            --surface-color: #111827;
+            --border-color: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-rose: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .brand h1 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        .metrics-bar {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .metric-pill {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .metric-pill strong {
+            color: var(--text-main);
+            font-family: var(--font-mono);
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .mermaid-container {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <h1>🗺️ Cartographer</h1>
+            <span class="badge">LIVING ARCHITECTURE</span>
+        </div>
+        <div class="metrics-bar">
+            <span class="metric-pill">Modules: <strong>10</strong></span>
+            <span class="metric-pill">LOC: <strong>995</strong></span>
+            <span class="metric-pill">Classes: <strong>10</strong></span>
+            <span class="metric-pill">Functions: <strong>9</strong></span>
+            <span class="metric-pill">Cycles: <strong>0</strong></span>
+        </div>
+    </header>
+    <main>
+        <div class="mermaid-container">
+            <pre class="mermaid">
+flowchart TD
+    %% Architecture Dependency Graph by Cartographer
+    classDef stable fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef volatile fill:#3b1e2b,stroke:#f43f5e,stroke-width:2px,color:#f8fafc;
+    classDef core fill:#0f172a,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+    src_ast_scanner_py["ast_scanner<br/><small>LOC: 179 | I: 0.0</small>"]
+    class src_ast_scanner_py core;
+    src_cli_py["cli<br/><small>LOC: 156 | I: 1.0</small>"]
+    class src_cli_py volatile;
+    src_graph_engine_py["graph_engine<br/><small>LOC: 165 | I: 0.167</small>"]
+    class src_graph_engine_py core;
+    src_inkloom_exporter_py["inkloom_exporter<br/><small>LOC: 165 | I: 0.5</small>"]
+    class src_inkloom_exporter_py stable;
+    src_visualizer_py["visualizer<br/><small>LOC: 186 | I: 0.667</small>"]
+    class src_visualizer_py stable;
+    src___init___py["__init__<br/><small>LOC: 5 | I: 0.0</small>"]
+    class src___init___py stable;
+    tests_conftest_py["conftest<br/><small>LOC: 7 | I: 0.0</small>"]
+    class tests_conftest_py stable;
+    tests_test_ast_scanner_py["test_ast_scanner<br/><small>LOC: 42 | I: 1.0</small>"]
+    class tests_test_ast_scanner_py volatile;
+    tests_test_graph_engine_py["test_graph_engine<br/><small>LOC: 44 | I: 1.0</small>"]
+    class tests_test_graph_engine_py volatile;
+    tests_test_inkloom_exporter_py["test_inkloom_exporter<br/><small>LOC: 46 | I: 1.0</small>"]
+    class tests_test_inkloom_exporter_py volatile;
+    src_cli_py --> src_inkloom_exporter_py
+    src_cli_py --> src_visualizer_py
+    src_cli_py --> src_ast_scanner_py
+    src_cli_py --> src_graph_engine_py
+    src_graph_engine_py --> src_ast_scanner_py
+    src_inkloom_exporter_py --> src_ast_scanner_py
+    src_inkloom_exporter_py --> src_graph_engine_py
+    src_visualizer_py --> src_ast_scanner_py
+    src_visualizer_py --> src_graph_engine_py
+    tests_test_ast_scanner_py --> src_ast_scanner_py
+    tests_test_graph_engine_py --> src_ast_scanner_py
+    tests_test_graph_engine_py --> src_graph_engine_py
+    tests_test_inkloom_exporter_py --> src_inkloom_exporter_py
+    tests_test_inkloom_exporter_py --> src_ast_scanner_py
+    tests_test_inkloom_exporter_py --> src_graph_engine_py
+            </pre>
+        </div>
+    </main>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            flowchart: {
+                curve: 'basis',
+                nodeSpacing: 50,
+                rankSpacing: 50
+            }
+        });
+    </script>
+</body>
+</html>

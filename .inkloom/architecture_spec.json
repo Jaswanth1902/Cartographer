@@ -1,0 +1,610 @@
+{
+  "schema_version": "inkloom.v1",
+  "project_name": "Cartographer",
+  "metrics": {
+    "total_modules": 10,
+    "total_classes": 10,
+    "total_functions": 9,
+    "total_lines_of_code": 995,
+    "circular_dependencies_count": 0,
+    "circular_cycles": [],
+    "god_modules": [],
+    "orphan_modules": [
+      "tests/conftest.py"
+    ]
+  },
+  "modules": [
+    {
+      "file_path": "src/ast_scanner.py",
+      "module_name": "ast_scanner",
+      "docstring": "AST Scanner for Cartographer.\nExtracts module metadata, imports, classes, functions, and docstrings in <50ms.",
+      "lines_of_code": 179,
+      "dependencies": [],
+      "dependents": [
+        "src/cli.py",
+        "src/graph_engine.py",
+        "src/inkloom_exporter.py",
+        "src/visualizer.py",
+        "tests/test_ast_scanner.py",
+        "tests/test_graph_engine.py",
+        "tests/test_inkloom_exporter.py"
+      ],
+      "instability": 0.0,
+      "classes": [
+        {
+          "name": "FunctionSignature",
+          "bases": [],
+          "docstring": "",
+          "methods": []
+        },
+        {
+          "name": "ClassSignature",
+          "bases": [],
+          "docstring": "",
+          "methods": []
+        },
+        {
+          "name": "ImportStatement",
+          "bases": [],
+          "docstring": "",
+          "methods": []
+        },
+        {
+          "name": "ModuleNode",
+          "bases": [],
+          "docstring": "",
+          "methods": []
+        },
+        {
+          "name": "CallVisitor",
+          "bases": [
+            "ast.NodeVisitor"
+          ],
+          "docstring": "",
+          "methods": [
+            {
+              "name": "__init__",
+              "args": [
+                "self"
+              ],
+              "return_type": null,
+              "docstring": ""
+            },
+            {
+              "name": "visit_Call",
+              "args": [
+                "self",
+                "node"
+              ],
+              "return_type": null,
+              "docstring": ""
+            }
+          ]
+        },
+        {
+          "name": "CartographerScanner",
+          "bases": [],
+          "docstring": "Deterministic, zero-token AST scanner for Python codebases.",
+          "methods": [
+            {
+              "name": "__init__",
+              "args": [
+                "self",
+                "root_dir"
+              ],
+              "return_type": null,
+              "docstring": ""
+            },
+            {
+              "name": "scan_file",
+              "args": [
+                "self",
+                "file_path"
+              ],
+              "return_type": "ModuleNode",
+              "docstring": "Parse a single Python file into a ModuleNode."
+            },
+            {
+              "name": "_parse_function",
+              "args": [
+                "self",
+                "node"
+              ],
+              "return_type": "FunctionSignature",
+              "docstring": ""
+            },
+            {
+              "name": "scan_codebase",
+              "args": [
+                "self",
+                "exclude_dirs"
+              ],
+              "return_type": "Dict[str, ModuleNode]",
+              "docstring": "Recursively scan codebase for all .py files."
+            }
+          ]
+        }
+      ],
+      "functions": []
+    },
+    {
+      "file_path": "src/cli.py",
+      "module_name": "cli",
+      "docstring": "Command-Line Interface for Cartographer.\nProvides scan, lint, visualize, and export commands.",
+      "lines_of_code": 156,
+      "dependencies": [
+        "src/ast_scanner.py",
+        "src/graph_engine.py",
+        "src/inkloom_exporter.py",
+        "src/visualizer.py"
+      ],
+      "dependents": [],
+      "instability": 1.0,
+      "classes": [],
+      "functions": [
+        {
+          "name": "run_pipeline",
+          "args": [
+            "root_path"
+          ],
+          "return_type": null,
+          "docstring": "Run scanner and graph engine, return (scanner, graph, metrics).",
+          "calls": [
+            "perf_counter",
+            "CartographerScanner",
+            "scan_codebase",
+            "CodebaseDependencyGraph",
+            "compute_metrics",
+            "perf_counter"
+          ]
+        },
+        {
+          "name": "cmd_scan",
+          "args": [
+            "args"
+          ],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "resolve",
+            "Path",
+            "print",
+            "run_pipeline",
+            "print",
+            "print",
+            "print",
+            "print",
+            "print",
+            "print",
+            "len",
+            "print",
+            "len",
+            "print",
+            "len",
+            "print",
+            "print",
+            "join"
+          ]
+        },
+        {
+          "name": "cmd_lint",
+          "args": [
+            "args"
+          ],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "resolve",
+            "Path",
+            "print",
+            "run_pipeline",
+            "print",
+            "len",
+            "print",
+            "join",
+            "print",
+            "len",
+            "print",
+            "print"
+          ]
+        },
+        {
+          "name": "cmd_visualize",
+          "args": [
+            "args"
+          ],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "resolve",
+            "Path",
+            "resolve",
+            "Path",
+            "run_pipeline",
+            "LivingArchitectureVisualizer",
+            "generate_html_blueprint",
+            "mkdir",
+            "write_text",
+            "print"
+          ]
+        },
+        {
+          "name": "cmd_export",
+          "args": [
+            "args"
+          ],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "resolve",
+            "Path",
+            "run_pipeline",
+            "InkloomExporter",
+            "resolve",
+            "Path",
+            "export_to_json",
+            "print",
+            "resolve",
+            "Path",
+            "mkdir",
+            "generate_markdown_docs",
+            "write_text",
+            "print",
+            "print"
+          ]
+        },
+        {
+          "name": "main",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "ArgumentParser",
+            "add_subparsers",
+            "add_parser",
+            "add_argument",
+            "set_defaults",
+            "add_parser",
+            "add_argument",
+            "set_defaults",
+            "add_parser",
+            "add_argument",
+            "add_argument",
+            "set_defaults",
+            "add_parser",
+            "add_argument",
+            "add_argument",
+            "add_argument",
+            "set_defaults",
+            "parse_args",
+            "func",
+            "exit"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "src/graph_engine.py",
+      "module_name": "graph_engine",
+      "docstring": "Dependency Graph & Architectural Rot Engine for Cartographer.\nBuilds directed dependency graphs, detects circular imports, and scores architectural stability.",
+      "lines_of_code": 165,
+      "dependencies": [
+        "src/ast_scanner.py"
+      ],
+      "dependents": [
+        "src/cli.py",
+        "src/inkloom_exporter.py",
+        "src/visualizer.py",
+        "tests/test_graph_engine.py",
+        "tests/test_inkloom_exporter.py"
+      ],
+      "instability": 0.167,
+      "classes": [
+        {
+          "name": "ArchitectureMetrics",
+          "bases": [],
+          "docstring": "",
+          "methods": []
+        },
+        {
+          "name": "CodebaseDependencyGraph",
+          "bases": [],
+          "docstring": "Directed dependency graph and topological architectural rot analyzer.",
+          "methods": [
+            {
+              "name": "__init__",
+              "args": [
+                "self",
+                "modules"
+              ],
+              "return_type": null,
+              "docstring": ""
+            },
+            {
+              "name": "_build_path_map",
+              "args": [
+                "self"
+              ],
+              "return_type": null,
+              "docstring": "Map Python dotted module names and file stems to relative file paths."
+            },
+            {
+              "name": "_resolve_target",
+              "args": [
+                "self",
+                "source_path",
+                "mod_name",
+                "is_relative",
+                "level"
+              ],
+              "return_type": "Optional[str]",
+              "docstring": "Resolve an imported module name to a scanned project module path."
+            },
+            {
+              "name": "_build_graph",
+              "args": [
+                "self"
+              ],
+              "return_type": null,
+              "docstring": "Resolve import statements into directed edges."
+            },
+            {
+              "name": "find_cycles",
+              "args": [
+                "self"
+              ],
+              "return_type": "List[List[str]]",
+              "docstring": "Detect circular dependency cycles using DFS 3-color coloring."
+            },
+            {
+              "name": "compute_metrics",
+              "args": [
+                "self"
+              ],
+              "return_type": "ArchitectureMetrics",
+              "docstring": "Calculate overall architectural health, rot, and stability indices."
+            }
+          ]
+        }
+      ],
+      "functions": []
+    },
+    {
+      "file_path": "src/inkloom_exporter.py",
+      "module_name": "inkloom_exporter",
+      "docstring": "Inkloom AI Exporter for Cartographer.\nExports structured architecture schemas and living documentation compatible with Inkloom AI.",
+      "lines_of_code": 165,
+      "dependencies": [
+        "src/ast_scanner.py",
+        "src/graph_engine.py"
+      ],
+      "dependents": [
+        "src/cli.py",
+        "tests/test_inkloom_exporter.py"
+      ],
+      "instability": 0.5,
+      "classes": [
+        {
+          "name": "InkloomExporter",
+          "bases": [],
+          "docstring": "Serializes codebase cartography into Inkloom AI specification format and Markdown docs.",
+          "methods": [
+            {
+              "name": "__init__",
+              "args": [
+                "self",
+                "graph",
+                "metrics",
+                "project_name"
+              ],
+              "return_type": null,
+              "docstring": ""
+            },
+            {
+              "name": "build_inkloom_spec",
+              "args": [
+                "self"
+              ],
+              "return_type": "Dict[str, Any]",
+              "docstring": "Compile a structured JSON payload adhering to Inkloom AI's documentation ingestion schema."
+            },
+            {
+              "name": "export_to_json",
+              "args": [
+                "self",
+                "output_path"
+              ],
+              "return_type": "Path",
+              "docstring": "Write the Inkloom spec to a JSON file."
+            },
+            {
+              "name": "generate_markdown_docs",
+              "args": [
+                "self"
+              ],
+              "return_type": "str",
+              "docstring": "Generate high-density Markdown documentation of the system architecture."
+            }
+          ]
+        }
+      ],
+      "functions": []
+    },
+    {
+      "file_path": "src/visualizer.py",
+      "module_name": "visualizer",
+      "docstring": "Living Architecture Visualizer for Cartographer.\nCompiles interactive Mermaid DAGs and standalone Atelier-styled SVG/HTML blueprints.",
+      "lines_of_code": 186,
+      "dependencies": [
+        "src/ast_scanner.py",
+        "src/graph_engine.py"
+      ],
+      "dependents": [
+        "src/cli.py"
+      ],
+      "instability": 0.667,
+      "classes": [
+        {
+          "name": "LivingArchitectureVisualizer",
+          "bases": [],
+          "docstring": "Renders codebase DAGs into Mermaid syntax and standalone interactive HTML blueprints.",
+          "methods": [
+            {
+              "name": "__init__",
+              "args": [
+                "self",
+                "graph",
+                "metrics"
+              ],
+              "return_type": null,
+              "docstring": ""
+            },
+            {
+              "name": "generate_mermaid",
+              "args": [
+                "self"
+              ],
+              "return_type": "str",
+              "docstring": "Generate clean, categorized Mermaid.js flowchart."
+            },
+            {
+              "name": "generate_html_blueprint",
+              "args": [
+                "self",
+                "title"
+              ],
+              "return_type": "str",
+              "docstring": "Generate self-contained HTML living architecture viewer with Da Vinci blueprint aesthetic."
+            }
+          ]
+        }
+      ],
+      "functions": []
+    },
+    {
+      "file_path": "src/__init__.py",
+      "module_name": "__init__",
+      "docstring": "Cartographer - Autonomous Living Architecture & Docs Agent.\nBuilt for WCC Launchpad 3.0 (WeCodeCoders x Inkloom AI).",
+      "lines_of_code": 5,
+      "dependencies": [],
+      "dependents": [],
+      "instability": 0.0,
+      "classes": [],
+      "functions": []
+    },
+    {
+      "file_path": "tests/conftest.py",
+      "module_name": "conftest",
+      "docstring": "",
+      "lines_of_code": 7,
+      "dependencies": [],
+      "dependents": [],
+      "instability": 0.0,
+      "classes": [],
+      "functions": []
+    },
+    {
+      "file_path": "tests/test_ast_scanner.py",
+      "module_name": "test_ast_scanner",
+      "docstring": "Unit tests for Cartographer AST Scanner.",
+      "lines_of_code": 42,
+      "dependencies": [
+        "src/ast_scanner.py"
+      ],
+      "dependents": [],
+      "instability": 1.0,
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_scanner_extracts_classes_and_functions",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "write_text",
+            "CartographerScanner",
+            "scan_file",
+            "len",
+            "len",
+            "len",
+            "len"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "tests/test_graph_engine.py",
+      "module_name": "test_graph_engine",
+      "docstring": "Unit tests for Cartographer Graph Engine and Cycle Detection.",
+      "lines_of_code": 44,
+      "dependencies": [
+        "src/ast_scanner.py",
+        "src/graph_engine.py"
+      ],
+      "dependents": [],
+      "instability": 1.0,
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_dependency_resolution_and_cycle_detection",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "write_text",
+            "write_text",
+            "write_text",
+            "CartographerScanner",
+            "scan_codebase",
+            "CodebaseDependencyGraph",
+            "compute_metrics",
+            "len"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "tests/test_inkloom_exporter.py",
+      "module_name": "test_inkloom_exporter",
+      "docstring": "Unit tests for Cartographer Inkloom Exporter.",
+      "lines_of_code": 46,
+      "dependencies": [
+        "src/ast_scanner.py",
+        "src/graph_engine.py",
+        "src/inkloom_exporter.py"
+      ],
+      "dependents": [],
+      "instability": 1.0,
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_inkloom_export_schema_and_markdown",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "write_text",
+            "CartographerScanner",
+            "scan_codebase",
+            "CodebaseDependencyGraph",
+            "compute_metrics",
+            "InkloomExporter",
+            "build_inkloom_spec",
+            "len",
+            "export_to_json",
+            "exists",
+            "loads",
+            "read_text",
+            "generate_markdown_docs"
+          ]
+        }
+      ]
+    }
+  ]
+}
