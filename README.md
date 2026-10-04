@@ -5,9 +5,11 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-passing%20(100%25)-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-13%20passing%20(100%25)-brightgreen)](tests/)
+[![Tarjan](https://img.shields.io/badge/cycle%20linter-Tarjan%20SCC%20(O(V%2BE))-brightgreen)]()
 [![Latency](https://img.shields.io/badge/AST%20Scan-%3C20ms-orange)]()
 [![Tokens](https://img.shields.io/badge/API%20Tokens-0%20(Deterministic)-purple)]()
+
 
 <p align="center">
   <img src="media/frame_13s.png" alt="Cartographer Hero Banner" width="100%" />
@@ -31,9 +33,13 @@ In rapid software development and hackathon sprints, **documentation rots the mo
 
 ### 🌟 Key Capabilities
 - ⚡ **Sub-20ms AST Cartography**: Pure standard library `ast` parsing extracts modules, classes, methods, imports, and docstrings with **0 cloud API tokens**.
-- 🗺️ **Living Architecture Blueprints**: Automatically generates interactive HTML/SVG visualization blueprints with responsive DAG layouts and dependency matrices.
-- 🛡️ **Architectural Rot Linter**: Detects circular dependency cycles using Tarjan's algorithm, flags god-object bottlenecks, and catches orphan files.
-- 🔌 **Native Inkloom AI Bridge**: Auto-generates structured JSON specifications and living Markdown documentation directly formatted for [Inkloom AI](https://inkloom.io) developer portals.
+- 🤖 **Two-Tier Agentic Architecture**: 
+  - *Tier 1 (Perception)*: Deterministic AST topological grounding (<20ms).
+  - *Tier 2 (Autonomy)*: Autonomous `docgen` agent that audits undocumented symbols and synthesizes PEP 257 docstring patches.
+- 🔌 **Native Inkloom AI & OpenAPI Bridge**: Auto-extracts FastAPI/Flask route decorators (`@app.get`, `@router.post`) into structured JSON specs (`.inkloom/architecture_spec.json`) ready for [Inkloom AI](https://inkloom.io) developer portals.
+- 🛡️ **Tarjan's Strongly Connected Components (SCC)**: Formally detects cyclic dependency clusters with $O(V+E)$ mathematical rigor, flagging architectural rot before merges.
+- 🗺️ **Living Architecture Blueprints**: Compiles self-contained, interactive HTML/SVG visualization blueprints with responsive DAG layouts and Martin instability matrices.
+
 
 ---
 
@@ -103,7 +109,25 @@ cartographer lint ./path/to/project
 [PASS] Architecture is clean (0 circular cycles) in 15.66 ms.
 ```
 
-### 3. Generate Living HTML Blueprint
+### 3. Autonomous Docgen Agent
+Audits public classes and functions lacking docstrings and synthesizes PEP 257 patches:
+```bash
+cartographer docgen ./path/to/project
+# or: python -m src.cli docgen .
+```
+```text
+[AGENT] Cartographer Autonomous Docgen Agent analyzing codebase...
+  Total Symbols Audited : 20
+  Missing Docstrings    : 17
+[PROPOSED AUTONOMOUS DOCSTRING SYNTHESIS]:
+  • [CLASS] FunctionSignature (src/ast_scanner.py)
+    """Synthesizes behavior for FunctionSignature."""
+  ...
+[AGENT] Generated 17 proposed docstring patches in 17.46 ms.
+```
+
+### 4. Generate Living HTML Blueprint
+
 Compiles a self-contained, interactive HTML architecture dashboard:
 ```bash
 cartographer visualize . --output docs/architecture_blueprint.html

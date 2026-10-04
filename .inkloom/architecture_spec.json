@@ -2,10 +2,11 @@
   "schema_version": "inkloom.v1",
   "project_name": "Cartographer",
   "metrics": {
-    "total_modules": 10,
+    "total_modules": 11,
     "total_classes": 10,
-    "total_functions": 9,
-    "total_lines_of_code": 995,
+    "total_functions": 20,
+    "total_endpoints": 0,
+    "total_lines_of_code": 1307,
     "circular_dependencies_count": 0,
     "circular_cycles": [],
     "god_modules": [],
@@ -13,12 +14,13 @@
       "tests/conftest.py"
     ]
   },
+  "api_endpoints": [],
   "modules": [
     {
       "file_path": "src/ast_scanner.py",
       "module_name": "ast_scanner",
       "docstring": "AST Scanner for Cartographer.\nExtracts module metadata, imports, classes, functions, and docstrings in <50ms.",
-      "lines_of_code": 179,
+      "lines_of_code": 204,
       "dependencies": [],
       "dependents": [
         "src/cli.py",
@@ -131,15 +133,17 @@
       "file_path": "src/cli.py",
       "module_name": "cli",
       "docstring": "Command-Line Interface for Cartographer.\nProvides scan, lint, visualize, and export commands.",
-      "lines_of_code": 156,
+      "lines_of_code": 199,
       "dependencies": [
         "src/ast_scanner.py",
         "src/graph_engine.py",
         "src/inkloom_exporter.py",
         "src/visualizer.py"
       ],
-      "dependents": [],
-      "instability": 1.0,
+      "dependents": [
+        "tests/test_cli.py"
+      ],
+      "instability": 0.8,
       "classes": [],
       "functions": [
         {
@@ -254,6 +258,38 @@
           ]
         },
         {
+          "name": "cmd_docgen",
+          "args": [
+            "args"
+          ],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "resolve",
+            "Path",
+            "run_pipeline",
+            "print",
+            "items",
+            "append",
+            "append",
+            "append",
+            "print",
+            "print",
+            "len",
+            "print",
+            "print",
+            "join",
+            "print",
+            "upper",
+            "print",
+            "len",
+            "print",
+            "len",
+            "print",
+            "len"
+          ]
+        },
+        {
           "name": "main",
           "args": [],
           "return_type": null,
@@ -261,6 +297,9 @@
           "calls": [
             "ArgumentParser",
             "add_subparsers",
+            "add_parser",
+            "add_argument",
+            "set_defaults",
             "add_parser",
             "add_argument",
             "set_defaults",
@@ -287,7 +326,7 @@
       "file_path": "src/graph_engine.py",
       "module_name": "graph_engine",
       "docstring": "Dependency Graph & Architectural Rot Engine for Cartographer.\nBuilds directed dependency graphs, detects circular imports, and scores architectural stability.",
-      "lines_of_code": 165,
+      "lines_of_code": 170,
       "dependencies": [
         "src/ast_scanner.py"
       ],
@@ -354,7 +393,7 @@
                 "self"
               ],
               "return_type": "List[List[str]]",
-              "docstring": "Detect circular dependency cycles using DFS 3-color coloring."
+              "docstring": "Detect non-trivial strongly connected components (cycles) using Tarjan's algorithm.\nComplexity: O(V + E) single-pass stack traversal."
             },
             {
               "name": "compute_metrics",
@@ -373,7 +412,7 @@
       "file_path": "src/inkloom_exporter.py",
       "module_name": "inkloom_exporter",
       "docstring": "Inkloom AI Exporter for Cartographer.\nExports structured architecture schemas and living documentation compatible with Inkloom AI.",
-      "lines_of_code": 165,
+      "lines_of_code": 193,
       "dependencies": [
         "src/ast_scanner.py",
         "src/graph_engine.py"
@@ -507,7 +546,7 @@
       "file_path": "tests/test_ast_scanner.py",
       "module_name": "test_ast_scanner",
       "docstring": "Unit tests for Cartographer AST Scanner.",
-      "lines_of_code": 42,
+      "lines_of_code": 98,
       "dependencies": [
         "src/ast_scanner.py"
       ],
@@ -531,14 +570,119 @@
             "len",
             "len"
           ]
+        },
+        {
+          "name": "test_scanner_extracts_fastapi_and_flask_route_decorators",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "write_text",
+            "CartographerScanner",
+            "scan_file",
+            "len",
+            "next",
+            "next"
+          ]
+        },
+        {
+          "name": "test_scanner_handles_syntax_errors_gracefully",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "write_text",
+            "CartographerScanner",
+            "scan_file"
+          ]
+        }
+      ]
+    },
+    {
+      "file_path": "tests/test_cli.py",
+      "module_name": "test_cli",
+      "docstring": "Integration tests for Cartographer CLI commands.",
+      "lines_of_code": 56,
+      "dependencies": [
+        "src/cli.py"
+      ],
+      "dependents": [],
+      "instability": 1.0,
+      "classes": [],
+      "functions": [
+        {
+          "name": "test_cli_scan_command",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "MagicMock",
+            "cmd_scan"
+          ]
+        },
+        {
+          "name": "test_cli_lint_command",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "MagicMock",
+            "cmd_lint"
+          ]
+        },
+        {
+          "name": "test_cli_docgen_command",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "MagicMock",
+            "cmd_docgen"
+          ]
+        },
+        {
+          "name": "test_cli_visualize_command",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "MagicMock",
+            "str",
+            "cmd_visualize",
+            "exists",
+            "read_text"
+          ]
+        },
+        {
+          "name": "test_cli_export_command",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "TemporaryDirectory",
+            "Path",
+            "Path",
+            "MagicMock",
+            "str",
+            "str",
+            "cmd_export",
+            "exists",
+            "exists"
+          ]
         }
       ]
     },
     {
       "file_path": "tests/test_graph_engine.py",
       "module_name": "test_graph_engine",
-      "docstring": "Unit tests for Cartographer Graph Engine and Cycle Detection.",
-      "lines_of_code": 44,
+      "docstring": "Unit tests for Cartographer Dependency Graph Engine and Tarjan SCC.",
+      "lines_of_code": 114,
       "dependencies": [
         "src/ast_scanner.py",
         "src/graph_engine.py"
@@ -548,21 +692,50 @@
       "classes": [],
       "functions": [
         {
-          "name": "test_dependency_resolution_and_cycle_detection",
+          "name": "test_tarjan_scc_finds_cycles",
           "args": [],
           "return_type": null,
           "docstring": "",
           "calls": [
-            "TemporaryDirectory",
-            "Path",
-            "write_text",
-            "write_text",
-            "write_text",
-            "CartographerScanner",
-            "scan_codebase",
+            "ModuleNode",
+            "ImportStatement",
+            "ModuleNode",
+            "ImportStatement",
+            "ModuleNode",
+            "ImportStatement",
             "CodebaseDependencyGraph",
-            "compute_metrics",
+            "find_cycles",
+            "len",
+            "set"
+          ]
+        },
+        {
+          "name": "test_tarjan_scc_on_acyclic_graph",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "ModuleNode",
+            "ImportStatement",
+            "ModuleNode",
+            "ImportStatement",
+            "ModuleNode",
+            "CodebaseDependencyGraph",
+            "find_cycles",
             "len"
+          ]
+        },
+        {
+          "name": "test_martin_instability_and_metrics",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "ModuleNode",
+            "ImportStatement",
+            "ModuleNode",
+            "CodebaseDependencyGraph",
+            "compute_metrics"
           ]
         }
       ]
@@ -570,8 +743,8 @@
     {
       "file_path": "tests/test_inkloom_exporter.py",
       "module_name": "test_inkloom_exporter",
-      "docstring": "Unit tests for Cartographer Inkloom Exporter.",
-      "lines_of_code": 46,
+      "docstring": "Unit tests for Cartographer Inkloom AI Exporter.",
+      "lines_of_code": 75,
       "dependencies": [
         "src/ast_scanner.py",
         "src/graph_engine.py",
@@ -582,25 +755,36 @@
       "classes": [],
       "functions": [
         {
-          "name": "test_inkloom_export_schema_and_markdown",
+          "name": "test_inkloom_spec_generation_and_export",
           "args": [],
           "return_type": null,
           "docstring": "",
           "calls": [
-            "TemporaryDirectory",
-            "Path",
-            "write_text",
-            "CartographerScanner",
-            "scan_codebase",
+            "FunctionSignature",
+            "ModuleNode",
             "CodebaseDependencyGraph",
             "compute_metrics",
             "InkloomExporter",
             "build_inkloom_spec",
             "len",
+            "TemporaryDirectory",
+            "Path",
             "export_to_json",
             "exists",
             "loads",
-            "read_text",
+            "read_text"
+          ]
+        },
+        {
+          "name": "test_inkloom_markdown_generation",
+          "args": [],
+          "return_type": null,
+          "docstring": "",
+          "calls": [
+            "ModuleNode",
+            "CodebaseDependencyGraph",
+            "compute_metrics",
+            "InkloomExporter",
             "generate_markdown_docs"
           ]
         }

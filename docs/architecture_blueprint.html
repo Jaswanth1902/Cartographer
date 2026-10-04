@@ -91,10 +91,10 @@
             <span class="badge">LIVING ARCHITECTURE</span>
         </div>
         <div class="metrics-bar">
-            <span class="metric-pill">Modules: <strong>10</strong></span>
-            <span class="metric-pill">LOC: <strong>995</strong></span>
+            <span class="metric-pill">Modules: <strong>11</strong></span>
+            <span class="metric-pill">LOC: <strong>1307</strong></span>
             <span class="metric-pill">Classes: <strong>10</strong></span>
-            <span class="metric-pill">Functions: <strong>9</strong></span>
+            <span class="metric-pill">Functions: <strong>20</strong></span>
             <span class="metric-pill">Cycles: <strong>0</strong></span>
         </div>
     </header>
@@ -106,13 +106,13 @@ flowchart TD
     classDef stable fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
     classDef volatile fill:#3b1e2b,stroke:#f43f5e,stroke-width:2px,color:#f8fafc;
     classDef core fill:#0f172a,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
-    src_ast_scanner_py["ast_scanner<br/><small>LOC: 179 | I: 0.0</small>"]
+    src_ast_scanner_py["ast_scanner<br/><small>LOC: 204 | I: 0.0</small>"]
     class src_ast_scanner_py core;
-    src_cli_py["cli<br/><small>LOC: 156 | I: 1.0</small>"]
+    src_cli_py["cli<br/><small>LOC: 199 | I: 0.8</small>"]
     class src_cli_py volatile;
-    src_graph_engine_py["graph_engine<br/><small>LOC: 165 | I: 0.167</small>"]
+    src_graph_engine_py["graph_engine<br/><small>LOC: 170 | I: 0.167</small>"]
     class src_graph_engine_py core;
-    src_inkloom_exporter_py["inkloom_exporter<br/><small>LOC: 165 | I: 0.5</small>"]
+    src_inkloom_exporter_py["inkloom_exporter<br/><small>LOC: 193 | I: 0.5</small>"]
     class src_inkloom_exporter_py stable;
     src_visualizer_py["visualizer<br/><small>LOC: 186 | I: 0.667</small>"]
     class src_visualizer_py stable;
@@ -120,27 +120,30 @@ flowchart TD
     class src___init___py stable;
     tests_conftest_py["conftest<br/><small>LOC: 7 | I: 0.0</small>"]
     class tests_conftest_py stable;
-    tests_test_ast_scanner_py["test_ast_scanner<br/><small>LOC: 42 | I: 1.0</small>"]
+    tests_test_ast_scanner_py["test_ast_scanner<br/><small>LOC: 98 | I: 1.0</small>"]
     class tests_test_ast_scanner_py volatile;
-    tests_test_graph_engine_py["test_graph_engine<br/><small>LOC: 44 | I: 1.0</small>"]
+    tests_test_cli_py["test_cli<br/><small>LOC: 56 | I: 1.0</small>"]
+    class tests_test_cli_py volatile;
+    tests_test_graph_engine_py["test_graph_engine<br/><small>LOC: 114 | I: 1.0</small>"]
     class tests_test_graph_engine_py volatile;
-    tests_test_inkloom_exporter_py["test_inkloom_exporter<br/><small>LOC: 46 | I: 1.0</small>"]
+    tests_test_inkloom_exporter_py["test_inkloom_exporter<br/><small>LOC: 75 | I: 1.0</small>"]
     class tests_test_inkloom_exporter_py volatile;
-    src_cli_py --> src_inkloom_exporter_py
-    src_cli_py --> src_visualizer_py
-    src_cli_py --> src_ast_scanner_py
     src_cli_py --> src_graph_engine_py
+    src_cli_py --> src_ast_scanner_py
+    src_cli_py --> src_visualizer_py
+    src_cli_py --> src_inkloom_exporter_py
     src_graph_engine_py --> src_ast_scanner_py
-    src_inkloom_exporter_py --> src_ast_scanner_py
     src_inkloom_exporter_py --> src_graph_engine_py
-    src_visualizer_py --> src_ast_scanner_py
+    src_inkloom_exporter_py --> src_ast_scanner_py
     src_visualizer_py --> src_graph_engine_py
+    src_visualizer_py --> src_ast_scanner_py
     tests_test_ast_scanner_py --> src_ast_scanner_py
-    tests_test_graph_engine_py --> src_ast_scanner_py
+    tests_test_cli_py --> src_cli_py
     tests_test_graph_engine_py --> src_graph_engine_py
-    tests_test_inkloom_exporter_py --> src_inkloom_exporter_py
-    tests_test_inkloom_exporter_py --> src_ast_scanner_py
+    tests_test_graph_engine_py --> src_ast_scanner_py
     tests_test_inkloom_exporter_py --> src_graph_engine_py
+    tests_test_inkloom_exporter_py --> src_ast_scanner_py
+    tests_test_inkloom_exporter_py --> src_inkloom_exporter_py
             </pre>
         </div>
     </main>

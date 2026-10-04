@@ -20,6 +20,9 @@ class FunctionSignature:
     line_start: int
     line_end: int
     calls: List[str] = field(default_factory=list)
+    decorators: List[str] = field(default_factory=list)
+    http_endpoint: Optional[Dict[str, str]] = None
+
 
 
 @dataclass
@@ -152,6 +155,25 @@ class CartographerScanner:
         visitor = CallVisitor()
         visitor.visit(node)
 
+        decorators = []
+        http_endpoint = None
+        for dec in node.decorator_list:
+            dec_str = ast.unparse(dec)
+            decorators.append(dec_str)
+            # Parse FastAPI / Flask route decorators: @app.get("/items"), @router.post("/items")
+            if isinstance(dec, ast.Call):
+                func_name = ast.unparse(dec.func)
+                for method in ["get", "post", "put", "delete", "patch", "options", "head"]:
+                    if func_name.endswith(f".{method}") or func_name == method:
+                        route_path = ast.unparse(dec.args[0]).strip("'\"") if dec.args else "/unknown"
+                        http_endpoint = {
+                            "method": method.upper(),
+                            "path": route_path,
+                            "handler": node.name,
+                            "decorator": dec_str,
+                        }
+                        break
+
         return FunctionSignature(
             name=node.name,
             args=args,
@@ -160,7 +182,10 @@ class CartographerScanner:
             line_start=node.lineno,
             line_end=getattr(node, "end_lineno", node.lineno),
             calls=visitor.calls,
+            decorators=decorators,
+            http_endpoint=http_endpoint,
         )
+
 
     def scan_codebase(self, exclude_dirs: Optional[Set[str]] = None) -> Dict[str, ModuleNode]:
         """Recursively scan codebase for all .py files."""

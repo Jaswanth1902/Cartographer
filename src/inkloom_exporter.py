@@ -71,6 +71,31 @@ class InkloomExporter:
                 }
             )
 
+        # Collect OpenAPI / HTTP endpoints for Inkloom integration
+        endpoints_payload = []
+        for path_str, node in self.graph.modules.items():
+            for fn in node.functions:
+                if getattr(fn, "http_endpoint", None):
+                    endpoints_payload.append({
+                        "file_path": path_str,
+                        "handler": fn.name,
+                        "method": fn.http_endpoint["method"],
+                        "path": fn.http_endpoint["path"],
+                        "decorator": fn.http_endpoint["decorator"],
+                        "docstring": fn.docstring or ""
+                    })
+            for cls in node.classes:
+                for m in cls.methods:
+                    if getattr(m, "http_endpoint", None):
+                        endpoints_payload.append({
+                            "file_path": path_str,
+                            "handler": f"{cls.name}.{m.name}",
+                            "method": m.http_endpoint["method"],
+                            "path": m.http_endpoint["path"],
+                            "decorator": m.http_endpoint["decorator"],
+                            "docstring": m.docstring or ""
+                        })
+
         spec = {
             "schema_version": "inkloom.v1",
             "project_name": self.project_name,
@@ -78,15 +103,18 @@ class InkloomExporter:
                 "total_modules": self.metrics.total_modules,
                 "total_classes": self.metrics.total_classes,
                 "total_functions": self.metrics.total_functions,
+                "total_endpoints": len(endpoints_payload),
                 "total_lines_of_code": self.metrics.total_lines_of_code,
                 "circular_dependencies_count": len(self.metrics.circular_dependencies),
                 "circular_cycles": self.metrics.circular_dependencies,
                 "god_modules": self.metrics.god_modules,
                 "orphan_modules": self.metrics.orphan_modules,
             },
+            "api_endpoints": endpoints_payload,
             "modules": modules_payload,
         }
         return spec
+
 
     def export_to_json(self, output_path: str | Path) -> Path:
         """Write the Inkloom spec to a JSON file."""

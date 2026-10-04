@@ -84,44 +84,49 @@ class CodebaseDependencyGraph:
                     self.reverse_edges[target_path].add(file_path)
 
     def find_cycles(self) -> List[List[str]]:
-        """Detect circular dependency cycles using DFS 3-color coloring."""
-        WHITE, GRAY, BLACK = 0, 1, 2
-        color = {node: WHITE for node in self.modules}
-        cycles: List[List[str]] = []
-        path: List[str] = []
+        """Detect non-trivial strongly connected components (cycles) using Tarjan's algorithm.
+        Complexity: O(V + E) single-pass stack traversal.
+        """
+        index = 0
+        indices: Dict[str, int] = {}
+        lowlink: Dict[str, int] = {}
+        stack: List[str] = []
+        on_stack: Set[str] = set()
+        sccs: List[List[str]] = []
 
-        def dfs(u: str):
-            color[u] = GRAY
-            path.append(u)
+        def strongconnect(node: str):
+            nonlocal index
+            indices[node] = index
+            lowlink[node] = index
+            index += 1
+            stack.append(node)
+            on_stack.add(node)
 
-            for v in self.edges.get(u, set()):
-                if v not in color:
-                    continue
-                if color[v] == GRAY:
-                    # Cycle found
-                    idx = path.index(v)
-                    cycle = path[idx:] + [v]
-                    cycles.append(cycle)
-                elif color[v] == WHITE:
-                    dfs(v)
+            for neighbor in self.edges.get(node, set()):
+                if neighbor not in indices:
+                    strongconnect(neighbor)
+                    lowlink[node] = min(lowlink[node], lowlink[neighbor])
+                elif neighbor in on_stack:
+                    lowlink[node] = min(lowlink[node], indices[neighbor])
 
-            path.pop()
-            color[u] = BLACK
+            if lowlink[node] == indices[node]:
+                scc = []
+                while True:
+                    w = stack.pop()
+                    on_stack.remove(w)
+                    scc.append(w)
+                    if w == node:
+                        break
+                # Non-trivial SCC (>1 node or 1-node self-loop)
+                if len(scc) > 1 or (len(scc) == 1 and node in self.edges.get(node, set())):
+                    sccs.append(scc)
 
-        for node in self.modules:
-            if color[node] == WHITE:
-                dfs(node)
+        for mod in self.modules:
+            if mod not in indices:
+                strongconnect(mod)
 
-        # Deduplicate identical cycles with different rotations
-        unique_cycles = []
-        seen_sets = []
-        for c in cycles:
-            nodes_set = set(c[:-1])
-            if nodes_set not in seen_sets:
-                seen_sets.append(nodes_set)
-                unique_cycles.append(c)
+        return sccs
 
-        return unique_cycles
 
     def compute_metrics(self) -> ArchitectureMetrics:
         """Calculate overall architectural health, rot, and stability indices."""
