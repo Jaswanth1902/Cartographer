@@ -1,0 +1,5 @@
+# Cartographer Zero-Dependency Standard Library Core
+# Core scanner, graph engine, and Tarjan SCC run on Python >=3.10 standard library.
+
+# Development and testing
+pytest>=8.0.0

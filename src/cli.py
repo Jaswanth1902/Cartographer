@@ -153,8 +153,21 @@ def cmd_docgen(args):
     if len(missing_docs) > 8:
         print(f"    ... and {len(missing_docs) - 8} more symbols.")
 
+    if getattr(args, "diff", False):
+        diff_path = root / ".cartographer" / "docstring_patches.diff"
+        diff_path.parent.mkdir(parents=True, exist_ok=True)
+        diff_lines = ["# Cartographer Autonomous Docstring Patches\n"]
+        for path_str, kind, sym, params in missing_docs:
+            param_str = ", ".join([p for p in params if p != "self"]) if params else "None"
+            diff_lines.append(f"--- a/{path_str}\n+++ b/{path_str}\n")
+            diff_lines.append(f"@@ {kind} {sym} @@\n")
+            diff_lines.append(f'+    \"\"\"Synthesizes behavior for {sym}. Parameters: {param_str}.\"\"\"\n\n')
+        diff_path.write_text("".join(diff_lines), encoding="utf-8")
+        print(f"\n[PATCH] Unified patch diff written to {diff_path}")
+
     print(f"\n[AGENT] Generated {len(missing_docs)} proposed docstring patches in {elapsed_ms:.2f} ms.")
     return 0
+
 
 
 def main():
@@ -174,7 +187,9 @@ def main():
     # docgen
     p_doc = subparsers.add_parser("docgen", help="Autonomously detect missing docstrings and synthesize patches")
     p_doc.add_argument("path", nargs="?", default=".", help="Codebase directory to audit")
+    p_doc.add_argument("--diff", "-d", action="store_true", help="Generate unified .diff patch file for missing docstrings")
     p_doc.set_defaults(func=cmd_docgen)
+
 
     # visualize
     p_vis = subparsers.add_parser("visualize", help="Generate interactive HTML/SVG living blueprint")
