@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cartographer · Product Launch Film</title>
+<style>
+:root {
+  --bg: #090a0f;
+  --surface: #12151e;
+  --surface-border: #1e2433;
+  --cyan: #38bdf8;
+  --emerald: #4ade80;
+  --crimson: #f43f5e;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+html, body {
+  margin: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: var(--font-sans);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+#stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #151b2b 0%, #090a0f 75%);
+}
+.abs {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform, opacity;
+}
+/* Blueprint Grid Overlay */
+#grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.6;
+}
+
+/* Scene 1: The Problem */
+#scene1 {
+  width: 100%;
+  height: 100%;
+}
+#s1-title {
+  width: 1920px;
+  top: 420px;
+  text-align: center;
+  font-size: 76px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+#s1-title .rot {
+  color: var(--crimson);
+}
+#s1-sub {
+  width: 1920px;
+  top: 540px;
+  text-align: center;
+  font-size: 32px;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Scene 2: Terminal Card */
+#terminal {
+  left: 480px;
+  top: 300px;
+  width: 960px;
+  height: 480px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(56, 189, 248, 0.15);
+  font-family: var(--font-mono);
+  padding: 32px 40px;
+  box-sizing: border-box;
+}
+.term-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.term-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+.term-title {
+  margin-left: 12px;
+  color: var(--text-muted);
+  font-size: 18px;
+}
+.term-line {
+  font-size: 26px;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.term-cyan { color: var(--cyan); }
+.term-green { color: var(--emerald); font-weight: 600; }
+.term-cursor {
+  display: inline-block;
+  width: 12px;
+  height: 28px;
+  background: var(--cyan);
+  vertical-align: -4px;
+  margin-left: 4px;
+}
+
+/* Scene 3: DAG Nodes */
+#dag-container {
+  left: 360px;
+  top: 280px;
+  width: 1200px;
+  height: 520px;
+}
+.dag-node {
+  position: absolute;
+  background: #161b26;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 24px 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-mono);
+}
+.dag-node .tag {
+  font-size: 14px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.dag-node .name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+.badge-pass {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid var(--emerald);
+  color: var(--emerald);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Scene 4: Hero Wordmark */
+#hero {
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#hero-mark {
+  font-size: 110px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff 40%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#hero-tag {
+  font-size: 34px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+#hero-pills {
+  display: flex;
+  gap: 18px;
+}
+.hero-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--cyan);
+}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+
+  <!-- Scene 1: Problem -->
+  <div id="scene1" class="abs">
+    <div id="s1-title" class="abs">Codebases Evolve. <span class="rot">Static Docs Rot.</span></div>
+    <div id="s1-sub" class="abs">40% of developer onboarding is lost in architectural fog.</div>
+  </div>
+
+  <!-- Scene 2: Terminal Execution -->
+  <div id="terminal" class="abs">
+    <div class="term-header">
+      <div class="term-dot dot-red"></div>
+      <div class="term-dot dot-yellow"></div>
+      <div class="term-dot dot-green"></div>
+      <div class="term-title">cartographer-agent · zsh</div>
+    </div>
+    <div class="term-line" id="term-cmd"><span class="term-cyan">$</span> <span id="typed-text"></span><span class="term-cursor" id="term-cur"></span></div>
+    <div id="term-results" style="opacity: 0;">
+      <div class="term-line" style="color: var(--text-muted); font-size: 20px; margin-top: 20px;">[SCAN] Parsing AST syntax trees deterministically...</div>
+      <div class="term-line term-green" style="margin-top: 10px;">⚡ [PERF] Scan completed in 17.34 ms</div>
+      <div class="term-line" style="font-size: 22px; color: #cbd5e1;">  • 10 Modules · 995 LOC · 0 Cloud Tokens ($0.00)</div>
+      <div class="term-line" style="font-size: 22px; color: var(--emerald);">  • 0 Circular Dependency Cycles Detected</div>
+    </div>
+  </div>
+
+  <!-- Scene 3: Living DAG Blueprint -->
+  <div id="dag-container" class="abs">
+    <div class="badge-pass" id="badge-cycle">✓ TARJAN CYCLE CHECK: 0 CYCLES</div>
+    
+    <div class="dag-node" id="node-scanner" style="left: 60px; top: 120px;">
+      <div class="tag">SYNTAX TREE</div>
+      <div class="name">ast_scanner.py</div>
+    </div>
+
+    <div class="dag-node" id="node-graph" style="left: 450px; top: 220px;">
+      <div class="tag">DAG ENGINE</div>
+      <div class="name">graph_engine.py</div>
+    </div>
+
+    <div class="dag-node" id="node-inkloom" style="left: 820px; top: 100px;">
+      <div class="tag">SPONSOR EXPORTER</div>
+      <div class="name">inkloom_exporter.py</div>
+    </div>
+
+    <div class="dag-node" id="node-viz" style="left: 820px; top: 320px;">
+      <div class="tag">LIVING BLUEPRINT</div>
+      <div class="name">visualizer.py</div>
+    </div>
+  </div>
+
+  <!-- Scene 4: Hero Final -->
+  <div id="hero" class="abs">
+    <div id="hero-mark">🧭 CARTOGRAPHER</div>
+    <div id="hero-tag">Autonomous Living Architecture & Docs Agent</div>
+    <div id="hero-pills">
+      <div class="hero-pill">WCC Launchpad 3.0</div>
+      <div class="hero-pill">Track 1: Agentic AI</div>
+      <div class="hero-pill">Inkloom AI Aligned</div>
+      <div class="hero-pill">Sub-20ms AST</div>
+    </div>
+  </div>
+</div>
+
+<script src="lib/motion.js"></script>
+<script>
+window.__meta = { dur: 15.0, fps: 30 };
+const OM = window.OM;
+
+const s1Title = document.getElementById("s1-title");
+const s1Sub = document.getElementById("s1-sub");
+const terminal = document.getElementById("terminal");
+const typedText = document.getElementById("typed-text");
+const termResults = document.getElementById("term-results");
+const dagContainer = document.getElementById("dag-container");
+const nodeScanner = document.getElementById("node-scanner");
+const nodeGraph = document.getElementById("node-graph");
+const nodeInkloom = document.getElementById("node-inkloom");
+const nodeViz = document.getElementById("node-viz");
+const hero = document.getElementById("hero");
+
+window.__seek = function(t) {
+  // Scene 1: The Problem (t: 0 -> 3.5s)
+  if (t < 3.8) {
+    const s1Enter = Math.min(1, Math.max(0, t / 0.8));
+    const s1Exit = Math.min(1, Math.max(0, (t - 3.0) / 0.5));
+    const s1Opacity = (1 - s1Exit) * s1Enter;
+    const s1Y = (1 - s1Enter) * 30 - s1Exit * 40;
+    
+    s1Title.style.opacity = s1Opacity;
+    s1Title.style.transform = `translateY(${s1Y}px)`;
+    s1Sub.style.opacity = s1Opacity;
+    s1Sub.style.transform = `translateY(${s1Y + 10}px)`;
+  } else {
+    s1Title.style.opacity = 0;
+    s1Sub.style.opacity = 0;
+  }
+
+  // Scene 2: Terminal (t: 3.2 -> 7.5s)
+  if (t >= 3.2 && t < 7.8) {
+    const tEnter = Math.min(1, Math.max(0, (t - 3.2) / 0.6));
+    const tExit = Math.min(1, Math.max(0, (t - 7.0) / 0.6));
+    const tOpacity = (1 - tExit) * tEnter;
+    const tScale = 0.95 + 0.05 * tEnter - 0.05 * tExit;
+
+    terminal.style.opacity = tOpacity;
+    terminal.style.transform = `scale(${tScale})`;
+
+    // Typing simulation
+    const fullCmd = "cartographer scan .";
+    const typeProg = Math.min(1, Math.max(0, (t - 3.8) / 1.0));
+    const charsToShow = Math.floor(typeProg * fullCmd.length);
+    typedText.textContent = fullCmd.substring(0, charsToShow);
+
+    // Results pop
+    if (t >= 5.0) {
+      const resEnter = Math.min(1, Math.max(0, (t - 5.0) / 0.4));
+      termResults.style.opacity = resEnter;
+      termResults.style.transform = `translateY(${(1 - resEnter) * 10}px)`;
+    } else {
+      termResults.style.opacity = 0;
+    }
+  } else {
+    terminal.style.opacity = 0;
+  }
+
+  // Scene 3: DAG Nodes (t: 7.2 -> 11.5s)
+  if (t >= 7.2 && t < 11.8) {
+    const dEnter = Math.min(1, Math.max(0, (t - 7.2) / 0.6));
+    const dExit = Math.min(1, Math.max(0, (t - 11.0) / 0.6));
+    dagContainer.style.opacity = (1 - dExit) * dEnter;
+
+    const n1 = Math.min(1, Math.max(0, (t - 7.4) / 0.4));
+    const n2 = Math.min(1, Math.max(0, (t - 7.8) / 0.4));
+    const n3 = Math.min(1, Math.max(0, (t - 8.2) / 0.4));
+    const n4 = Math.min(1, Math.max(0, (t - 8.4) / 0.4));
+
+    nodeScanner.style.opacity = n1;
+    nodeScanner.style.transform = `translateY(${(1 - n1) * 20}px)`;
+    nodeGraph.style.opacity = n2;
+    nodeGraph.style.transform = `translateY(${(1 - n2) * 20}px)`;
+    nodeInkloom.style.opacity = n3;
+    nodeInkloom.style.transform = `translateY(${(1 - n3) * 20}px)`;
+    nodeViz.style.opacity = n4;
+    nodeViz.style.transform = `translateY(${(1 - n4) * 20}px)`;
+  } else {
+    dagContainer.style.opacity = 0;
+  }
+
+  // Scene 4: Final Hero (t: 11.2 -> 15.0s)
+  if (t >= 11.2) {
+    const hEnter = Math.min(1, Math.max(0, (t - 11.2) / 0.8));
+    hero.style.opacity = hEnter;
+    hero.style.transform = `scale(${0.92 + 0.08 * hEnter})`;
+  } else {
+    hero.style.opacity = 0;
+  }
+};
+
+window.__seek(0);
+</script>
+</body>
+</html>

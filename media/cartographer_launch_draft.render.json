@@ -1,0 +1,18 @@
+{
+ "comp": "C:\\Users\\jaswa\\Antigravity\\01_Projects\\Cartographer\\media\\comp.html",
+ "fps": 30,
+ "scale": 1,
+ "size": [
+  1920,
+  1080
+ ],
+ "shutter": 0,
+ "samples": 1,
+ "workers": 2,
+ "frames": 450,
+ "still_frames": 0,
+ "cut_frames": 0,
+ "captures": 450,
+ "seconds": 85.9,
+ "final": false
+}

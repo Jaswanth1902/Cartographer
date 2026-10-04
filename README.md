@@ -9,6 +9,11 @@
 [![Latency](https://img.shields.io/badge/AST%20Scan-%3C20ms-orange)]()
 [![Tokens](https://img.shields.io/badge/API%20Tokens-0%20(Deterministic)-purple)]()
 
+<p align="center">
+  <img src="media/frame_13s.png" alt="Cartographer Hero Banner" width="100%" />
+</p>
+
+
 ---
 
 ## 💡 The Problem: Why Static Documentation Rots
@@ -60,9 +65,14 @@ Or run directly with Python standard library (zero external dependencies require
 python -m src.cli scan .
 ```
 
+<p align="center">
+  <img src="media/frame_05s.png" alt="Cartographer Sub-20ms AST Terminal Scan" width="85%" />
+</p>
+
 ---
 
 ## 🛠️ CLI Commands & Usage
+
 
 ### 1. Scan Codebase
 Scans the target directory, analyzes AST structures, and prints metrics:
